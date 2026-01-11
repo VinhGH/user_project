@@ -1,0 +1,29 @@
+# node_modules
+node_modules
+
+# dotenv
+.env
+
+# logs
+logs
+
+# build
+build
+
+# dependencies
+package-lock.json
+
+# editorconfig
+.editorconfig
+
+# gitignore
+gitignore
+
+# swagger
+docs
+
+# nodemon
+nodemon.log
+
+# other
+.DS_Store
