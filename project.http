@@ -1,0 +1,25 @@
+//create project
+POST http://localhost:3001/api/projects
+ // type application/json
+ Content-Type: application/json
+
+ {
+    "name": "Project 1",
+    "description": "Description of Project 1",
+    "status": "pending",
+    "startDate": "2024-01-01",
+    "owner": "69636c153b0ec768212f5a46"
+}
+
+###
+//get all projects
+GET http://localhost:3001/api/projects
+
+###
+//get project by id
+GET http://localhost:3001/api/projects/69636c5a8634f5c4115d2bac
+
+###
+//update project
+GET http://localhost:3001/api/projects/69636c5a8634f5c4115d2bac
+
