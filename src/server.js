@@ -4,6 +4,7 @@ import connectDB from './config/db.js'; // Nhớ đuôi .js
 import projectRoutes from './routes/projectRoutes.js'; // Nhớ đuôi .js
 import userRoutes from './routes/userRoutes.js'; // Nhớ đuôi .js
 import { swaggerUi, swaggerSpec } from './config/swagger.js';
+import authRoutes from './routes/authRoutes.js';
 
 // Load biến môi trường
 dotenv.config();
@@ -25,6 +26,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 // ==================== ROUTES ====================
 app.use('/api/projects', projectRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 // Kết nối Database
 connectDB();
 

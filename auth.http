@@ -1,0 +1,23 @@
+//register
+POST http://localhost:3001/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "User 1",
+    "email": "user2@gmail.com",
+    "password": "123456"
+}
+###
+//login
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "user2@gmail.com",
+    "password": "123456"
+}
+###
+//getMe
+GET http://localhost:3001/api/auth/me
+//Authorization: Bearer <token>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjM3MjViMGQ1YzdlYjhhZjU1MTk5MCIsImlhdCI6MTc2ODEyNTA3MSwiZXhwIjoxNzY4MjExNDcxfQ.EvfakXYtITBWgbGWBTH4PpW2tIOY0DXFAFGOVYddgdw
