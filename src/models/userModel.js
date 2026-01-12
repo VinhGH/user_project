@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    // Lưu Refresh Token hiện tại (để đối chiếu)
+    refreshToken: {
+        type: String,
+        select: false // Mặc định không trả về khi query
     }
 }, {
     timestamps: true

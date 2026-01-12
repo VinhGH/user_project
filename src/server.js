@@ -5,6 +5,7 @@ import projectRoutes from './routes/projectRoutes.js'; // Nhớ đuôi .js
 import userRoutes from './routes/userRoutes.js'; // Nhớ đuôi .js
 import { swaggerUi, swaggerSpec } from './config/swagger.js';
 import authRoutes from './routes/authRoutes.js';
+import cookieParser from 'cookie-parser';
 
 // Load biến môi trường
 dotenv.config();
@@ -14,6 +15,7 @@ const app = express();
 // Middleware quan trọng: Giúp Express hiểu được dữ liệu JSON
 // Nếu thiếu dòng này, req.body sẽ bị undefined
 app.use(express.json());
+app.use(cookieParser());
 
 // ==================== SWAGGER UI ====================
 // Truy cập tại: http://localhost:3001/api-docs

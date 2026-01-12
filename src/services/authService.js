@@ -1,51 +1,73 @@
-import User from '../models/userModel.js';
-import jwt from 'jsonwebtoken';
+import User from "../models/userModel.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
-// Hàm phụ trợ: Tạo Token
-const generateToken = (userId) => {
-    return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRE,
+dotenv.config();
+
+// Hàm utility: Tạo Access Token
+export const generateToken = (userId) => {
+    const accessToken = jwt.sign({ id: userId }, process.env.JWT_SECRET, {
+        expiresIn: '24h', // 24 giờ
     });
+
+    return accessToken;
 };
 
-// 1. Đăng ký
-export const registerUser = async ({ email, password, name }) => {
+// 1. Đăng ký người dùng mới
+export const registerUser = async (userData) => {
+    const { name, email, password } = userData;
+
+    // Kiểm tra email có tồn tại hay không
     const userExists = await User.findOne({ email });
     if (userExists) {
-        throw new Error('EMAIL_EXIST');
+        throw new Error("Email đã tồn tại");
     }
 
-    // Model sẽ tự động hash password nhờ pre('save')
-    const newUser = await User.create({ email, password, name });
+    // Tạo user mới (password sẽ tự động hash nhờ middleware pre-save trong model)
+    const newUser = await User.create({
+        name,
+        email,
+        password,
+    });
 
-    return newUser;
+    // Tạo token
+    const token = generateToken(newUser._id);
+
+    return {
+        user: {
+            id: newUser._id,
+            name: newUser.name,
+            email: newUser.email,
+        },
+        token
+    };
 };
 
 // 2. Đăng nhập
-export const loginUser = async ({ email, password }) => {
-    const user = await User.findOne({ email });
+export const loginUser = async (userData) => {
+    const { email, password } = userData;
 
-    // Kiểm tra email
+    // Kiểm tra email có tồn tại hay không
+    const user = await User.findOne({ email });
     if (!user) {
-        throw new Error('INVALID_CREDENTIALS');
+        throw new Error("Email không tồn tại");
     }
 
-    // Kiểm tra password (dùng hàm method của Model)
+    // Kiểm tra password có đúng hay không (dùng method từ model)
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-        throw new Error('INVALID_CREDENTIALS');
+        throw new Error("Mật khẩu không đúng");
     }
 
-    // Tạo Token
+    // Tạo token
     const token = generateToken(user._id);
 
     return {
-        token,
         user: {
             id: user._id,
-            email: user.email,
             name: user.name,
-            role: user.role
-        }
+            email: user.email,
+        },
+        token
     };
 };
